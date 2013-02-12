@@ -1,0 +1,2 @@
+escape ^Hh
+caption always "%D, %M %d %c %A %w"
