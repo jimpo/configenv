@@ -9,8 +9,10 @@ fi
 chsh -s $(which zsh)
 
 # add customization files
-mv -i screenrc ~/.screenrc
-mv -i dotemacs ~/.emacs
+cp -i zshrc ~/.zshrc
+cp -i dotemacs ~/.emacs
+cp -i screenrc ~/.screenrc
+cp -ir oh-my-zsh ~/.oh-my-zsh
 
 # set global git options
 git config --global user.name   'Jim Posen'
