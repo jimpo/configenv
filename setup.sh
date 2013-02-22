@@ -11,3 +11,8 @@ chsh -s $(which zsh)
 # add customization files
 mv -i screenrc ~/.screenrc
 mv -i dotemacs ~/.emacs
+
+# set global git options
+git config --global user.name   'Jim Posen'
+git config --global user.email  'jim.posen@gmail.com'
+git config --global core.editor 'emacs -nw'
