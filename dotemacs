@@ -1,0 +1,18 @@
+(setq-default indent-tabs-mode nil)
+(setq-default show-trailing-whitespace t)
+(setq-default column-number-mode t)
+(setq-default tab-width 4)
+(setq-default c-basic-offset 4)
+
+(setq package-archives '(("gnu" . "http://elpa.gnu.org/packages/")
+                         ("marmalade" . "http://marmalade-repo.org/packages/")
+                         ("melpa" . "http://melpa.milkbox.net/packages/")))
+
+(add-hook 'haml-mode-hook 'rinari-minor-mode)
+
+(defun coffee-custom ()
+  "coffee-mode-hook"
+  (set (make-local-variable 'tab-width) 2))
+
+(add-hook 'coffee-mode-hook
+          '(lambda() (coffee-custom)))

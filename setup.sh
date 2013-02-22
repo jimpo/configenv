@@ -1,7 +1,10 @@
 #!/bin/sh
 
 # install Oh My Zsh
-curl -L https://github.com/robbyrussell/oh-my-zsh/raw/master/tools/install.sh | sh
+if [[ ! -e $HOME/.oh-my-zsh ]] ; then
+    curl -L https://github.com/robbyrussell/oh-my-zsh/raw/master/tools/install.sh | sh
+fi
 
 # add customization files
-mv screenrc ~/.screenrc
+mv -i screenrc ~/.screenrc
+mv -i dotemacs ~/.emacs
