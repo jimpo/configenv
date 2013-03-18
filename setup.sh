@@ -12,7 +12,7 @@ chsh -s $(which zsh)
 cp -i zshrc ~/.zshrc
 cp -i dotemacs ~/.emacs
 cp -i screenrc ~/.screenrc
-cp -ir oh-my-zsh ~/.oh-my-zsh
+cp -ir oh-my-zsh/* ~/.oh-my-zsh
 
 # set global git options
 git config --global user.name   'Jim Posen'
