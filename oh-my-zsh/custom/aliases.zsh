@@ -9,3 +9,7 @@ alias ....='cd ../../..'
 alias .....='cd ../../../..'
 alias ......='cd ../../../../..'
 alias .......='cd ../../../../../..'
+
+clean_merged() {
+    git branch --merged master | grep -v "\* master" | xargs -n 1 git branch -d
+}

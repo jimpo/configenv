@@ -3,6 +3,8 @@
 (setq-default column-number-mode t)
 (setq-default tab-width 4)
 (setq-default c-basic-offset 4)
+(setq ruby-deep-indent-paren nil)
+(setq ruby-insert-encoding-magic-comment nil)
 
 (setq package-archives '(("gnu" . "http://elpa.gnu.org/packages/")
                          ("marmalade" . "http://marmalade-repo.org/packages/")
@@ -18,3 +20,8 @@
 (custom-set-variables '(coffee-tab-width 2))
 
 (add-to-list 'auto-mode-alist '("\\.rake\\'" . ruby-mode))
+(add-to-list 'auto-mode-alist '("\\.js\\'" . js2-mode))
+(add-to-list 'auto-mode-alist '("\\.jsx\\'" . js2-mode))
+
+(global-set-key (kbd "<escape>") 'god-local-mode)
+(global-set-key (kbd "M-.") 'etags-select-find-tag)
