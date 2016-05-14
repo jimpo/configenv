@@ -1,10 +1,7 @@
 autoload -U select-word-style
 select-word-style bash
 
-if [ -f ~/.rvm/scripts/rvm ] ; then
-   . ~/.rvm/scripts/rvm
-fi
+eval "$(rbenv init -)"
 
-if [ -f ~/.nvm/nvm.sh ] ; then
-   . ~/.nvm/nvm.sh
-fi
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
