@@ -1,0 +1,18 @@
+[user]
+	name = Jim Posen
+	email = jim.posen@gmail.com
+[alias]
+	co = checkout
+	ma = checkout master
+	unstage = reset HEAD --
+	rh = reset --hard HEAD
+	rema = rebase master
+	st = status
+	br = branch
+	ci = commit
+	cb = checkout -b
+	recon = rebase --continue
+[core]
+	editor = emacs -nw
+[push]
+	default = simple
