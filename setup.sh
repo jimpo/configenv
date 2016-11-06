@@ -9,12 +9,7 @@ fi
 chsh -s $(which zsh)
 
 # add customization files
-cp -i zshrc ~/.zshrc
-cp -i dotemacs ~/.emacs
-cp -i screenrc ~/.screenrc
+cp -i tmux.conf ~/.tmux.conf
+cp -i gitconfig ~/.gitconfig
+cp -ir emacs.d/* ~/.emacs.d
 cp -ir oh-my-zsh/* ~/.oh-my-zsh
-
-# set global git options
-git config --global user.name   'Jim Posen'
-git config --global user.email  'jim.posen@gmail.com'
-git config --global core.editor 'emacs -nw'
