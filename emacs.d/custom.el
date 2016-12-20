@@ -9,7 +9,7 @@
     ("1b8d67b43ff1723960eb5e0cba512a2c7a2ad544ddb2533a90101fd1852b426e" default)))
  '(package-selected-packages
    (quote
-    (coffee-mode color-theme-sanityinc-tomorrow rspec-mode ace-window try use-package js2-mode))))
+    (exec-path-from-shell helm solidity-mode magit coffee-mode color-theme-sanityinc-tomorrow rspec-mode ace-window try use-package js2-mode))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
