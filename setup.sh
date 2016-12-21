@@ -2,7 +2,14 @@
 
 # install Oh My Zsh
 if [ ! -d $HOME/.oh-my-zsh ] ; then
-    curl -L https://github.com/robbyrussell/oh-my-zsh/raw/master/tools/install.sh | sh
+    if [ "$(which curl)" ]; then
+        curl -L https://github.com/robbyrussell/oh-my-zsh/raw/master/tools/install.sh | sh
+    
+    # If curl not exist, use 'wget' as an alternative.
+    elif [ ! "$(which curl)" -a "$(which wget)" ]; then
+        wget -O- https://github.com/robbyrussell/oh-my-zsh/raw/master/tools/install.sh | sh
+    fi
+    
 fi
 
 # change default shell to ZSH
