@@ -1,9 +1,5 @@
 (setq inhibit-startup-message t)
 
-;; (setq ido-enable-flex-matching t)
-;; (setq ido-everywhere t)
-;; (ido-mode 1)
-
 (setq-default indent-tabs-mode nil)
 (setq-default show-trailing-whitespace t)
 (setq-default column-number-mode t)
@@ -43,8 +39,10 @@
   :ensure t
   :diminish helm-mode
   :bind (("M-x" . helm-M-x)
+         ("M-s o" . helm-occur)
          ("C-x r b" . helm-filtered-bookmarks)
          ("C-x C-f" . helm-find-files))
+
   :init
   (global-set-key (kbd "C-c h") 'helm-command-prefix)
   :config
@@ -68,6 +66,13 @@
   :ensure t
   :bind ("C-x g" . magit-status))
 
+(use-package org
+  :ensure t
+  :bind (("C-c l" . org-store-link)
+         ("C-c a" . org-agenda)
+         ("C-c c" . org-capture)
+         ("C-c b" . org-iswitchb)))
+
 (use-package rspec-mode
   :mode "_spec\\.rb\\'")
 
@@ -90,3 +95,25 @@
 (use-package yaml-mode)
 (use-package coffee-mode)
 (use-package go-mode)
+
+(setq path-to-ctags "/usr/local/bin/ctags")
+(defun create-tags (dir-name)
+  "Create tags file."
+  (interactive "DDirectory: ")
+  (shell-command
+   (format "%s -f TAGS -e -R %s" path-to-ctags (directory-file-name dir-name))))
+
+;; https://gist.github.com/magnars/3292872
+(defun goto-line-with-feedback (&optional line)
+  "Show line numbers temporarily, while prompting for the line number input"
+  (interactive "P")
+  (if line
+      (goto-line line)
+    (unwind-protect
+        (progn
+          (linum-mode 1)
+          (goto-line (read-number "Goto line: ")))
+      (linum-mode -1))))
+
+(global-linum-mode -1)
+(global-set-key [remap goto-line] 'goto-line-with-feedback)
