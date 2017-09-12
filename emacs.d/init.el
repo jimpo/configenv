@@ -52,6 +52,14 @@
   (define-key helm-map (kbd "TAB") 'helm-execute-persistent-action)
   (define-key helm-map (kbd "C-z") 'helm-select-action))
 
+(use-package helm-projectile
+  :ensure t
+  :init
+  (setq projectile-completion-system 'helm)
+  :config
+  (projectile-global-mode)
+  (helm-projectile-on))
+
 (use-package exec-path-from-shell
   :ensure t
   :config
@@ -85,6 +93,8 @@
     (setq ruby-deep-indent-paren nil)
     (setq ruby-insert-encoding-magic-comment nil)))
 
+(use-package inf-ruby)
+
 (use-package js2-mode
   :mode "\\.es6\\'"
   :mode "\\.js\\'"
@@ -94,7 +104,9 @@
 
 (use-package yaml-mode)
 (use-package coffee-mode)
-(use-package go-mode)
+(use-package go-mode
+  :init
+  (add-hook 'before-save-hook #'gofmt-before-save))
 
 (setq path-to-ctags "/usr/local/bin/ctags")
 (defun create-tags (dir-name)
