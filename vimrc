@@ -57,7 +57,7 @@ nnoremap <Leader>/ :let @/=""<CR>
 " Enable syntax highlighting
 syntax enable 
 
-colorscheme base16-default-dark
+colorscheme base16-chalk
 
 " Set utf8 as standard encoding and en_US as the standard language
 set encoding=utf8
@@ -74,6 +74,12 @@ set smarttab
 " 1 tab == 4 spaces
 set shiftwidth=4
 set tabstop=4
+
+""""""""""""""""""""""""""""""
+" => Status line
+" """"""""""""""""""""""""""""""
+" Always show the status line
+set laststatus=2
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Misc?
