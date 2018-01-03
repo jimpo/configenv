@@ -42,7 +42,6 @@
          ("M-s o" . helm-occur)
          ("C-x r b" . helm-filtered-bookmarks)
          ("C-x C-f" . helm-find-files))
-
   :init
   (global-set-key (kbd "C-c h") 'helm-command-prefix)
   :config
@@ -65,10 +64,10 @@
   :config
   (exec-path-from-shell-initialize))
 
-(use-package color-theme-sanityinc-tomorrow
+(use-package base16-theme
   :ensure t
   :config
-  (load-theme 'sanityinc-tomorrow-bright))
+  (load-theme 'base16-chalk t))
 
 (use-package magit
   :ensure t
@@ -80,6 +79,20 @@
          ("C-c a" . org-agenda)
          ("C-c c" . org-capture)
          ("C-c b" . org-iswitchb)))
+
+(use-package erc
+  :init
+  (defun erc-connect ()
+    "Connect to IRC bouncer"
+    (interactive)
+    (erc :server "HOSTNAME"
+         :port 12345
+         :nick "jimpo"
+         :password "jimpo/freenode:PASSWORD")))
+
+(use-package evil
+  :init
+  (evil-mode 1))
 
 (use-package rspec-mode
   :mode "_spec\\.rb\\'")
@@ -108,7 +121,7 @@
   :init
   (add-hook 'before-save-hook #'gofmt-before-save))
 
-(setq path-to-ctags "/usr/local/bin/ctags")
+(setq path-to-ctags "/usr/bin/ctags")
 (defun create-tags (dir-name)
   "Create tags file."
   (interactive "DDirectory: ")
