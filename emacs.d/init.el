@@ -5,6 +5,7 @@
 (setq-default column-number-mode t)
 (setq-default tab-width 4)
 (setq-default c-basic-offset 4)
+(setq-default sentence-end-double-space nil)
 
 (tool-bar-mode -1)
 
@@ -31,9 +32,8 @@
 
 (use-package editorconfig
   :ensure t
-  :init
-  (add-hook 'prog-mode-hook (editorconfig-mode 1))
-  (add-hook 'text-mode-hook (editorconfig-mode 1)))
+  :config
+  (editorconfig-mode 1))
 
 (use-package helm
   :ensure t
@@ -80,19 +80,21 @@
          ("C-c c" . org-capture)
          ("C-c b" . org-iswitchb)))
 
-(use-package erc
+(use-package popwin
+  :ensure t
   :init
-  (defun erc-connect ()
-    "Connect to IRC bouncer"
-    (interactive)
-    (erc :server "HOSTNAME"
-         :port 12345
-         :nick "jimpo"
-         :password "jimpo/freenode:PASSWORD")))
+  (require 'popwin)
+  (popwin-mode 1))
 
 (use-package evil
+  :ensure t
   :init
   (evil-mode 1))
+
+(use-package evil-magit
+  :ensure t
+  :init
+  (require 'evil-magit))
 
 (use-package rspec-mode
   :mode "_spec\\.rb\\'")
@@ -116,12 +118,16 @@
   :interpreter "node")
 
 (use-package yaml-mode)
-(use-package coffee-mode)
 (use-package go-mode
-  :init
-  (add-hook 'before-save-hook #'gofmt-before-save))
+  :hook (before-save . gofmt-before-save))
 
-(setq path-to-ctags "/usr/bin/ctags")
+(use-package racer
+  :hook (rust-mode . racer-mode)
+  :init
+  (evil-define-minor-mode-key 'normal 'racer-mode "gd" 'racer-find-definition)
+  (evil-define-minor-mode-key 'motion 'racer-mode "K" 'racer-describe))
+
+(setq path-to-ctags "/usr/local/bin/ctags")
 (defun create-tags (dir-name)
   "Create tags file."
   (interactive "DDirectory: ")
@@ -142,3 +148,14 @@
 
 (global-linum-mode -1)
 (global-set-key [remap goto-line] 'goto-line-with-feedback)
+
+;; ElDoc can be intrusive and quite slow at times, so only show on demand.
+(defun eldoc-show-message ()
+  (interactive)
+  (eldoc-message (funcall eldoc-documentation-function)))
+
+(evil-global-set-key 'motion "gK" 'eldoc-show-message)
+(global-eldoc-mode -1)
+
+(define-key undo-tree-map (kbd "C-/") nil)
+(global-set-key (kbd "C-/") 'comment-dwim)
