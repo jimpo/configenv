@@ -1,3 +1,3 @@
 #!/bin/sh
 
-apt-get install emacs vim zsh git curl tmux
+apt-get install emacs vim vim-gnome zsh git curl tmux zip unzip

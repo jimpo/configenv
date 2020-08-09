@@ -41,7 +41,8 @@
   :bind (("M-x" . helm-M-x)
          ("M-s o" . helm-occur)
          ("C-x r b" . helm-filtered-bookmarks)
-         ("C-x C-f" . helm-find-files))
+         ("C-x C-f" . helm-find-files)
+         ("C-c i" . helm-semantic-or-imenu))
   :init
   (global-set-key (kbd "C-c h") 'helm-command-prefix)
   :config
@@ -57,7 +58,8 @@
   (setq projectile-completion-system 'helm)
   :config
   (projectile-global-mode)
-  (helm-projectile-on))
+  (helm-projectile-on)
+  (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map))
 
 (use-package exec-path-from-shell
   :ensure t
@@ -67,7 +69,7 @@
 (use-package base16-theme
   :ensure t
   :config
-  (load-theme 'base16-chalk t))
+  (load-theme 'base16-bright t))
 
 (use-package magit
   :ensure t
@@ -78,7 +80,9 @@
   :bind (("C-c l" . org-store-link)
          ("C-c a" . org-agenda)
          ("C-c c" . org-capture)
-         ("C-c b" . org-iswitchb)))
+         ("C-c b" . org-iswitchb))
+  :init
+  (setq org-agenda-files (list "~/org/planner.org")))
 
 (use-package popwin
   :ensure t
@@ -89,12 +93,27 @@
 (use-package evil
   :ensure t
   :init
-  (evil-mode 1))
+  ;; https://github.com/ProofGeneral/PG/issues/174
+  (setq evil-want-abbrev-expand-on-insert-exit nil)
+  (setq evil-want-C-u-scroll t)
+  (evil-mode 1)
+  (define-key evil-window-map "d" 'pop-to-same-buffer))
 
 (use-package evil-magit
   :ensure t
   :init
   (require 'evil-magit))
+
+(use-package evil-org
+  :ensure t
+  :after org
+  :config
+  (add-hook 'org-mode-hook 'evil-org-mode)
+  (add-hook 'evil-org-mode-hook
+            (lambda ()
+              (evil-org-set-key-theme)))
+  (require 'evil-org-agenda)
+  (evil-org-agenda-set-keys))
 
 (use-package rspec-mode
   :mode "_spec\\.rb\\'")
@@ -121,11 +140,28 @@
 (use-package go-mode
   :hook (before-save . gofmt-before-save))
 
-(use-package racer
-  :hook (rust-mode . racer-mode)
+;; (use-package racer
+;;   :hook (rust-mode . racer-mode)
+;;   :init
+;;   (evil-define-minor-mode-key 'normal 'racer-mode "gd" 'racer-find-definition)
+;;   (evil-define-minor-mode-key 'motion 'racer-mode "K" 'racer-describe))
+
+(use-package lsp-mode
+  :hook ((rust-mode . lsp))
+  :commands lsp
   :init
-  (evil-define-minor-mode-key 'normal 'racer-mode "gd" 'racer-find-definition)
-  (evil-define-minor-mode-key 'motion 'racer-mode "K" 'racer-describe))
+  (evil-define-minor-mode-key 'normal 'lsp-mode "gd" 'lsp-find-definition)
+  (evil-define-minor-mode-key 'motion 'lsp-mode "K" 'lsp-describe-thing-at-point))
+
+(use-package helm-lsp
+  :commands helm-lsp-workspace-symbol
+  :bind (("M-SPC" . helm-lsp-workspace-symbol)))
+
+(use-package markdown-mode
+  :ensure t
+  :init (setq markdown-command "pandoc"))
+
+(use-package proof-general)
 
 (setq path-to-ctags "/usr/local/bin/ctags")
 (defun create-tags (dir-name)
@@ -150,12 +186,19 @@
 (global-set-key [remap goto-line] 'goto-line-with-feedback)
 
 ;; ElDoc can be intrusive and quite slow at times, so only show on demand.
-(defun eldoc-show-message ()
-  (interactive)
-  (eldoc-message (funcall eldoc-documentation-function)))
+;; (defun eldoc-show-message ()
+;;   (interactive)
+;;   (eldoc-message (funcall eldoc-documentation-function)))
 
-(evil-global-set-key 'motion "gK" 'eldoc-show-message)
-(global-eldoc-mode -1)
+;; (evil-global-set-key 'motion "gK" 'eldoc-show-message)
+;; (global-eldoc-mode -1)
 
 (define-key undo-tree-map (kbd "C-/") nil)
 (global-set-key (kbd "C-/") 'comment-dwim)
+(put 'downcase-region 'disabled nil)
+
+;; Duplicate the current buffer in another open window.
+(defun pop-to-same-buffer (&optional norecord)
+  (interactive)
+  (let ((pop-up-windows t))
+    (pop-to-buffer (current-buffer) t norecord)))

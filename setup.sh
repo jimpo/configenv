@@ -20,7 +20,7 @@ curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
     https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 
 # Install CSApprox
-curl -O /tmp/CSApprox.zip -sSL https://vim.sourceforge.io/scripts/download_script.php?src_id=18594
+curl -o /tmp/CSApprox.zip -sSL https://vim.sourceforge.io/scripts/download_script.php?src_id=18594
 pushd ~/.vim
 unzip /tmp/CSApprox.zip
 rm /tmp/CSApprox.zip
