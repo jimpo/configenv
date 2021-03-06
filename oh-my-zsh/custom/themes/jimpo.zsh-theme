@@ -23,5 +23,21 @@ function vi_mode_custom_prompt_info() {
   echo "${${${KEYMAP:-main}/vicmd/${vim_cmd_mode}}/(main|viins)/${vim_ins_mode}}"
 }
 
-PROMPT='%{$fg[cyan]%}%n:%{$fg[green]%}%~% %{$fg[white]%}%  %B%#%b '
+function prompt_pwd() {
+	python3 <<EOF
+import os
+
+cwd = os.getcwd()
+home_dir = os.environ['HOME']
+if cwd.startswith(home_dir):
+    cwd = cwd.replace(home_dir, "~", 1)
+split_cwd = cwd.split("/")
+if len(split_cwd) > 4:
+    split_cwd[2:-2] = ["..."]
+    cwd = "/".join(split_cwd)
+print(cwd)
+EOF
+}
+
+PROMPT='%{$fg[cyan]%}%n@%m %{$fg[green]%}[$(prompt_pwd)]% %{$fg[white]%}%  %B%#%b '
 RPS1='$(git_custom_status)$(vi_mode_custom_prompt_info)%{$fg[red]%}[%*]%{$reset_color%}$EPS1'

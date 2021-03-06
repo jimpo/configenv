@@ -32,5 +32,3 @@ if [ "$DESKTOP_SESSION" = "i3" ];then
     export SSH_AUTH_SOCK
 fi
 
-# https://direnv.net
-eval "$(direnv hook zsh)"
