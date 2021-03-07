@@ -1,0 +1,83 @@
+<keymap version="1" name="Customized Emacs" parent="Emacs">
+  <action id="$Undo">
+    <keyboard-shortcut first-keystroke="shift ctrl minus" />
+  </action>
+  <action id="Annotate">
+    <keyboard-shortcut first-keystroke="alt g" second-keystroke="l" />
+  </action>
+  <action id="CheckinFiles">
+    <keyboard-shortcut first-keystroke="alt g" second-keystroke="c" />
+  </action>
+  <action id="CommentByLineComment">
+    <keyboard-shortcut first-keystroke="alt semicolon" />
+    <keyboard-shortcut first-keystroke="ctrl slash" />
+  </action>
+  <action id="EditorKillRegion" />
+  <action id="EditorTab">
+    <keyboard-shortcut first-keystroke="tab" />
+  </action>
+  <action id="EmacsStyleIndent" />
+  <action id="FileStructurePopup">
+    <keyboard-shortcut first-keystroke="ctrl f12" />
+    <keyboard-shortcut first-keystroke="ctrl c" second-keystroke="i" />
+  </action>
+  <action id="FindPrevious">
+    <keyboard-shortcut first-keystroke="shift f3" />
+    <keyboard-shortcut first-keystroke="ctrl r" />
+  </action>
+  <action id="FindUsages">
+    <keyboard-shortcut first-keystroke="alt f7" />
+    <keyboard-shortcut first-keystroke="alt s" second-keystroke="a" />
+  </action>
+  <action id="FindUsagesInFile">
+    <keyboard-shortcut first-keystroke="meta f7" />
+    <keyboard-shortcut first-keystroke="alt s" second-keystroke="o" />
+  </action>
+  <action id="Git.Branches">
+    <keyboard-shortcut first-keystroke="alt g" second-keystroke="b" />
+  </action>
+  <action id="Git.Pull">
+    <keyboard-shortcut first-keystroke="alt g" second-keystroke="f" />
+  </action>
+  <action id="Git.Rebase">
+    <keyboard-shortcut first-keystroke="alt g" second-keystroke="r" />
+  </action>
+  <action id="GotoClass">
+    <keyboard-shortcut first-keystroke="shift alt g" />
+    <keyboard-shortcut first-keystroke="ctrl x" second-keystroke="f" />
+  </action>
+  <action id="GotoLine" />
+  <action id="Graph.ActualSize">
+    <keyboard-shortcut first-keystroke="ctrl divide" />
+  </action>
+  <action id="Images.Editor.ActualSize">
+    <keyboard-shortcut first-keystroke="ctrl divide" />
+  </action>
+  <action id="MoveEditorToOppositeTabGroup">
+    <keyboard-shortcut first-keystroke="ctrl w" second-keystroke="f" />
+  </action>
+  <action id="NextSplitter">
+    <keyboard-shortcut first-keystroke="ctrl x" second-keystroke="o" />
+    <keyboard-shortcut first-keystroke="ctrl w" second-keystroke="w" />
+  </action>
+  <action id="OpenEditorInOppositeTabGroup">
+    <keyboard-shortcut first-keystroke="ctrl w" second-keystroke="d" />
+  </action>
+  <action id="RecentFiles">
+    <keyboard-shortcut first-keystroke="ctrl x" second-keystroke="b" />
+  </action>
+  <action id="Run">
+    <keyboard-shortcut first-keystroke="shift f10" />
+    <keyboard-shortcut first-keystroke="alt r" second-keystroke="r" />
+  </action>
+  <action id="SelectInProjectView">
+    <keyboard-shortcut first-keystroke="ctrl x" second-keystroke="t" />
+  </action>
+  <action id="Switcher" />
+  <action id="Terminal.CopySelectedText" />
+  <action id="Terminal.Paste" />
+  <action id="Vcs.Push">
+    <keyboard-shortcut first-keystroke="shift meta k" />
+    <keyboard-shortcut first-keystroke="alt g" second-keystroke="p" />
+  </action>
+</keymap>
