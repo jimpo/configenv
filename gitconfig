@@ -14,5 +14,10 @@
 	ci = commit
 [core]
 	editor = vim
+	autocrlf = input
 [push]
 	default = simple
+[color]
+	ui = auto
+[include]
+	path = .gitconfig.local
