@@ -1,8 +1,11 @@
+(add-to-list 'load-path "~/.emacs.d/lisp/")
+
 (setq inhibit-startup-message t)
 
+(setq-default indent-tabs-mode t)
 (setq-default show-trailing-whitespace t)
 (setq-default column-number-mode t)
-(setq-default tab-width 4)
+(setq-default tab-width 2)
 (setq-default c-basic-offset 4)
 (setq-default sentence-end-double-space nil)
 
@@ -11,19 +14,15 @@
 (setq custom-file "~/.emacs.d/custom.el")
 (load custom-file)
 
-(setq default-directory (concat (getenv "HOME") "/"))
-
-;; https://melpa.org/#/getting-started
 (require 'package)
-(add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
+(setq package-enable-at-startup nil)
+(add-to-list 'package-archives
+             '("melpa" . "https://melpa.org/packages/"))
 (package-initialize)
 
 (unless (package-installed-p 'use-package)
   (package-refresh-contents)
   (package-install 'use-package))
-
-;; https://github.com/jwiegley/use-package#getting-started
-(eval-when-compile (require 'use-package))
 
 (use-package try
   :ensure t)
@@ -64,13 +63,17 @@
   (helm-projectile-on)
   (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map))
 
+(use-package projectile
+	:custom
+	(projectile-use-git-grep t))
+
 (use-package exec-path-from-shell
   :ensure t
-  :init
   :config
-  (setq shell-file-name "/bin/zsh")
-  (setq exec-path-from-shell-arguments nil)
   (exec-path-from-shell-initialize))
+
+(use-package sh-script
+	:mode ("APKBUILD" . shell-script-mode))
 
 (use-package base16-theme
   :ensure t
@@ -103,8 +106,7 @@
   (setq evil-want-abbrev-expand-on-insert-exit nil)
   (setq evil-want-C-u-scroll t)
   (evil-mode 1)
-  (define-key evil-window-map "d" 'pop-to-same-buffer)
-  (add-to-list 'evil-emacs-state-modes 'xref--xref-buffer-mode))
+  (define-key evil-window-map "d" 'pop-to-same-buffer))
 
 (use-package evil-magit
   :ensure t
@@ -134,18 +136,22 @@
     (setq ruby-deep-indent-paren nil)
     (setq ruby-insert-encoding-magic-comment nil)))
 
-(use-package asm-mode
-  :mode "\\.as\\'")
+(use-package inf-ruby)
 
 (use-package js2-mode
   :mode "\\.es6\\'"
   :mode "\\.js\\'"
   :mode "\\.jsx\\'"
-  :mode "\\.json\\'"
   :interpreter "node")
 
-(use-package typescript-mode
-  :mode "\\.ts\\'")
+(use-package rust-mode
+  :hook (rust-mode . (lambda () (setq tab-width 4))))
+
+(use-package camkes-mode
+  :mode "\\.idl4\\'"
+  :mode "\\.camkes\\'")
+
+(use-package gn-mode)
 
 (use-package yaml-mode)
 (use-package go-mode
@@ -158,20 +164,16 @@
 ;;   (evil-define-minor-mode-key 'motion 'racer-mode "K" 'racer-describe))
 
 (use-package lsp-mode
-  ;; :hook ((c-mode . lsp))
-  ;; :hook ((c++-mode . lsp))
-  :hook ((rust-mode . lsp))
   :commands lsp
+  :hook (svelte-mode . lsp)
+  :hook (typescript-mode . lsp)
+  :hook (rust-mode . lsp)
+  :hook (python-mode . lsp)
   :init
-  (setq lsp-clients-clangd-executable "/usr/local/opt/llvm/bin/clangd")
   (evil-define-minor-mode-key 'normal 'lsp-mode "gd" 'lsp-find-definition)
-  (evil-define-minor-mode-key 'motion 'lsp-mode "K" 'lsp-describe-thing-at-point))
-
-(use-package lsp-python-ms
-  :init (setq lsp-python-ms-auto-install-server t)
-  :hook (python-mode . (lambda ()
-                          (require 'lsp-python-ms)
-                          (lsp))))  ; or lsp-deferred
+  (evil-define-minor-mode-key 'motion 'lsp-mode "K" 'lsp-describe-thing-at-point)
+	:custom
+	(lsp-rust-analyzer-server-command '("rustup" "run" "nightly" "rust-analyzer")))
 
 (use-package helm-lsp
   :commands helm-lsp-workspace-symbol
@@ -180,6 +182,8 @@
 (use-package markdown-mode
   :ensure t
   :init (setq markdown-command "pandoc"))
+
+(use-package proof-general)
 
 (setq path-to-ctags "/usr/local/bin/ctags")
 (defun create-tags (dir-name)
@@ -220,4 +224,3 @@
   (interactive)
   (let ((pop-up-windows t))
     (pop-to-buffer (current-buffer) t norecord)))
-
