@@ -1,0 +1,5 @@
+" :map K :action QuickDocumentation
+" :map K :action QuickDefinition
+
+set visualbell
+set noerrorbells

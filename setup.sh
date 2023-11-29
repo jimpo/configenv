@@ -11,6 +11,7 @@ chsh -s $(which zsh)
 # add customization files
 cp -i tmux.conf ~/.tmux.conf
 cp -i gitconfig ~/.gitconfig
+cp -i ideavimrc ~/.ideavimrc
 mkdir -p ~/.emacs.d
 cp -ir emacs.d/* ~/.emacs.d
 cp -ir oh-my-zsh/* ~/.oh-my-zsh
