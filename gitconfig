@@ -4,14 +4,16 @@
 [alias]
 	co = checkout
 	cb = checkout -b
-	ma = checkout master
+	ma = !git switch "$(git config init.defaultBranch)"
 	unstage = reset HEAD --
 	rh = reset --hard HEAD
 	re = rebase
-	rema = rebase master
+	rema = !git rebase "$(git config init.defaultBranch)"
 	st = status
+	sw = switch
 	br = branch
-	ci = commit
+	cm = commit
+	df = diff
 [core]
 	editor = vim
 	autocrlf = input
@@ -21,3 +23,10 @@
 	ui = auto
 [include]
 	path = .gitconfig.local
+[init]
+	defaultBranch = main
+[filter "lfs"]
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process
+	required = true

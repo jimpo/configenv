@@ -35,7 +35,9 @@
 (use-package editorconfig
 	:ensure t
 	:config
-	(editorconfig-mode 1))
+	(editorconfig-mode 1)
+	:custom
+	(editorconfig-trim-whitespaces-mode 'delete-trailing-whitespace))
 
 (use-package helm
 	:ensure t
@@ -161,6 +163,9 @@
 
 (use-package gn-mode)
 
+(use-package makefile-mode
+	:mode "\\.mak\\'")
+
 (use-package yaml-mode)
 (use-package go-mode
 	:hook (before-save . gofmt-before-save))
@@ -177,11 +182,19 @@
 	:hook (typescript-mode . lsp)
 	:hook (rust-mode . lsp)
 	:hook (python-mode . lsp)
+	:hook (solidity-mode . lsp)
 	:init
 	(evil-define-minor-mode-key 'normal 'lsp-mode "gd" 'lsp-find-definition)
 	(evil-define-minor-mode-key 'motion 'lsp-mode "K" 'lsp-describe-thing-at-point)
+	:config
+	(lsp-register-client
+	 (make-lsp-client :new-connection (lsp-stdio-connection '("solc" "--lsp"))
+										:activation-fn (lsp-activate-on "solidity")
+										:server-id 'solc-lsp))
+	(add-to-list 'lsp-language-id-configuration '(solidity-mode . "solidity"))
 	:custom
-	(lsp-rust-analyzer-server-command '("rustup" "run" "nightly" "rust-analyzer")))
+	(lsp-rust-analyzer-server-command '("rustup" "run" "stable" "rust-analyzer"))
+	(lsp-pylsp-plugins-black-enabled 't))
 
 (use-package helm-lsp
 	:commands helm-lsp-workspace-symbol
@@ -231,3 +244,11 @@
 	(interactive)
 	(let ((pop-up-windows t))
 		(pop-to-buffer (current-buffer) t norecord)))
+
+;; Flash the mode line instead of audible bell
+;; See https://www.emacswiki.org/emacs/AlarmBell#h5o-3
+(setq visible-bell nil
+      ring-bell-function 'flash-mode-line)
+(defun flash-mode-line ()
+  (invert-face 'mode-line)
+  (run-with-timer 0.1 nil #'invert-face 'mode-line))

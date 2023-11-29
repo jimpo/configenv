@@ -2,6 +2,8 @@ alias ll='ls -alF'
 alias la='ls -A'
 alias l='ls -CF'
 
+alias aws='awsv2'
+
 # For GrapheneOS build
 alias signify=signify-openbsd
 
