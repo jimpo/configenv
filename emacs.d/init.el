@@ -9,20 +9,39 @@
 (setq-default c-basic-offset 4)
 (setq-default sentence-end-double-space nil)
 
+;; https://www.emacswiki.org/emacs/ToolBar
 (tool-bar-mode -1)
 
 (setq custom-file "~/.emacs.d/custom.el")
 (load custom-file)
 
+;; https://melpa.org/#/getting-started
 (require 'package)
-(setq package-enable-at-startup nil)
-(add-to-list 'package-archives
-						 '("melpa" . "https://melpa.org/packages/"))
+(add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
 (package-initialize)
+
+;; https://github.com/radian-software/straight.el#getting-started
+(defvar bootstrap-version)
+(let ((bootstrap-file
+			 (expand-file-name
+				"straight/repos/straight.el/bootstrap.el"
+				(or (bound-and-true-p straight-base-dir)
+						user-emacs-directory)))
+			(bootstrap-version 7))
+	(unless (file-exists-p bootstrap-file)
+		(with-current-buffer
+				(url-retrieve-synchronously
+				 "https://raw.githubusercontent.com/radian-software/straight.el/develop/install.el"
+				 'silent 'inhibit-cookies)
+			(goto-char (point-max))
+			(eval-print-last-sexp)))
+	(load bootstrap-file nil 'nomessage))
+
 
 (unless (package-installed-p 'use-package)
 	(package-refresh-contents)
 	(package-install 'use-package))
+
 
 (use-package try
 	:ensure t)
@@ -32,6 +51,9 @@
 	:init
 	(global-set-key [remap other-window] 'ace-window))
 
+(use-package diminish
+	:ensure t)
+
 (use-package editorconfig
 	:ensure t
 	:config
@@ -40,6 +62,7 @@
 	(editorconfig-trim-whitespaces-mode 'delete-trailing-whitespace))
 
 (use-package helm
+	:straight t
 	:ensure t
 	:diminish helm-mode
 	:bind (("M-x" . helm-M-x)
@@ -50,11 +73,12 @@
 	:init
 	(global-set-key (kbd "C-c h") 'helm-command-prefix)
 	:config
-	(require 'helm-config)
 	(helm-mode 1)
 	(define-key helm-map (kbd "<tab>") 'helm-execute-persistent-action)
 	(define-key helm-map (kbd "TAB") 'helm-execute-persistent-action)
-	(define-key helm-map (kbd "C-z") 'helm-select-action))
+	(define-key helm-map (kbd "C-z") 'helm-select-action)
+	:custom
+	(helm-move-to-line-cycle-in-source nil))
 
 (use-package helm-projectile
 	:ensure t
@@ -110,6 +134,8 @@
 	;; https://github.com/emacs-evil/evil-collection
 	(setq evil-want-integration t) ;; This is optional since it's already set to t by default.
 	(setq evil-want-keybinding nil)
+	:custom
+	(evil-undo-system 'undo-redo)
 	:config
 	(evil-mode 1)
 	(define-key evil-window-map "d" 'pop-to-same-buffer))
@@ -138,15 +164,12 @@
 	:mode "_spec\\.rb\\'")
 
 (use-package ruby-mode
-	:ensure t
 	:mode "\\.rb\\'"
 	:mode "\\.rake\\'"
 	:init
 	(progn
 		(setq ruby-deep-indent-paren nil)
 		(setq ruby-insert-encoding-magic-comment nil)))
-
-(use-package inf-ruby)
 
 (use-package js2-mode
 	:mode "\\.es6\\'"
@@ -155,26 +178,18 @@
 	:interpreter "node")
 
 (use-package rust-mode
-	:hook (rust-mode . (lambda () (setq tab-width 4))))
+	:hook (rust-mode . (lambda () (setq tab-width 4)))
+	:hook (rust-mode . (lambda () (setq indent-tabs-mode nil))))
 
 (use-package camkes-mode
 	:mode "\\.idl4\\'"
 	:mode "\\.camkes\\'")
 
-(use-package gn-mode)
-
 (use-package makefile-mode
 	:mode "\\.mak\\'")
 
-(use-package yaml-mode)
 (use-package go-mode
 	:hook (before-save . gofmt-before-save))
-
-;; (use-package racer
-;;   :hook (rust-mode . racer-mode)
-;;   :init
-;;   (evil-define-minor-mode-key 'normal 'racer-mode "gd" 'racer-find-definition)
-;;   (evil-define-minor-mode-key 'motion 'racer-mode "K" 'racer-describe))
 
 (use-package lsp-mode
 	:commands lsp
@@ -204,9 +219,7 @@
 	:ensure t
 	:init (setq markdown-command "pandoc"))
 
-(use-package proof-general)
-
-(setq path-to-ctags "/usr/local/bin/ctags")
+(setq path-to-ctags "/usr/bin/ctags")
 (defun create-tags (dir-name)
 	"Create tags file."
 	(interactive "DDirectory: ")
@@ -221,11 +234,10 @@
 			(goto-line line)
 		(unwind-protect
 				(progn
-					(linum-mode 1)
+					(display-line-numbers-mode)
 					(goto-line (read-number "Goto line: ")))
-			(linum-mode -1))))
+			(display-line-numbers-mode))))
 
-(global-linum-mode -1)
 (global-set-key [remap goto-line] 'goto-line-with-feedback)
 
 ;; ElDoc can be intrusive and quite slow at times, so only show on demand.
