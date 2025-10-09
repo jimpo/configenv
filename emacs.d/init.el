@@ -217,6 +217,7 @@
 
 (use-package markdown-mode
 	:ensure t
+	:mode "\\.mdx\\'"
 	:init (setq markdown-command "pandoc"))
 
 (setq path-to-ctags "/usr/bin/ctags")

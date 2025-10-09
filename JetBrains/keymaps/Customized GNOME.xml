@@ -14,6 +14,10 @@
   <action id="Cargo.RustfmtFile">
     <keyboard-shortcut first-keystroke="alt f" second-keystroke="f" />
   </action>
+  <action id="ChangesView.AddUnversioned">
+    <keyboard-shortcut first-keystroke="ctrl alt a" />
+    <keyboard-shortcut first-keystroke="alt g" second-keystroke="a" />
+  </action>
   <action id="CheckinProject">
     <keyboard-shortcut first-keystroke="ctrl k" />
     <keyboard-shortcut first-keystroke="alt g" second-keystroke="c" />
