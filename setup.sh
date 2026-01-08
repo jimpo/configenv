@@ -27,10 +27,8 @@ curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
 
 # Install CSApprox
 curl -o /tmp/CSApprox.zip -sSL https://www.vim.org/scripts/download_script.php?src_id=18594
-pushd ~/.vim
-unzip /tmp/CSApprox.zip
+unzip -d ~/.vim /tmp/CSApprox.zip
 rm /tmp/CSApprox.zip
-popd
 
 # Capslock as meta remapping option
 cd /usr/share/X11/xkb/rules
