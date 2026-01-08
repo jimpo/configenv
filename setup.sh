@@ -16,6 +16,8 @@ cp -i ideavimrc ~/.ideavimrc
 mkdir -p ~/.emacs.d
 cp -ir emacs.d/* ~/.emacs.d
 cp -ir oh-my-zsh/* ~/.oh-my-zsh
+mkdir -p ~/.config/Code/User
+cp -ir VSCode/* ~/.config/Code/User
 
 git clone https://github.com/chriskempson/base16-shell.git ~/.config/base16-shell
 
