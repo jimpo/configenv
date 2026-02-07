@@ -3,8 +3,6 @@ alias la='ls -A'
 alias l='ls -CF'
 alias unicodeit='python -m unicodeit.cli'
 
-alias claude="$HOME/.claude/local/claude"
-
 # For GrapheneOS build
 alias signify=signify-openbsd
 
