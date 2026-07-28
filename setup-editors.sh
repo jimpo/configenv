@@ -1,12 +1,12 @@
 #!/bin/sh
 
-cp -i vimrc ~/.vimrc
-cp -i ideavimrc ~/.ideavimrc
-cp -ir nvim ~/.config
+cp ${CP_FLAG:--i} vimrc ~/.vimrc
+cp ${CP_FLAG:--i} ideavimrc ~/.ideavimrc
+cp -r ${CP_FLAG:--i} nvim ~/.config
 mkdir -p ~/.emacs.d
-cp -ir emacs.d/* ~/.emacs.d
+cp -r ${CP_FLAG:--i} emacs.d/* ~/.emacs.d
 mkdir -p ~/.config/Code/User
-cp -ir VSCode/* ~/.config/Code/User
+cp -r ${CP_FLAG:--i} VSCode/* ~/.config/Code/User
 
 # Install vimplug
 curl -fLo ~/.vim/autoload/plug.vim --create-dirs \

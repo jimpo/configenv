@@ -14,8 +14,10 @@ sed -i \
     -e "s/^plugins=(.*)\$/plugins=($ZSH_PLUGINS)/" \
     ~/.zshrc
 
-# change default shell to ZSH
-chsh -s $(which zsh)
+# change default shell to ZSH (skip if it already is - chsh prompts for a
+# password non-interactively, which would fail/noise up automated runs)
+zsh_path="$(command -v zsh)"
+[ "$(getent passwd "$(id -un)" | cut -d: -f7)" = "$zsh_path" ] || chsh -s "$zsh_path"
 
-cp -ir oh-my-zsh/* ~/.oh-my-zsh
+cp -r ${CP_FLAG:--i} oh-my-zsh/* ~/.oh-my-zsh
 
