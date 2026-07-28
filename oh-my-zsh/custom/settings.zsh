@@ -1,6 +1,3 @@
-autoload -U select-word-style
-select-word-style bash
-
 export EDITOR=vim
 
 # Base16 Shell
