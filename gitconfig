@@ -17,6 +17,7 @@
 [core]
 	editor = vim
 	autocrlf = input
+	pager = delta
 [push]
 	default = simple
 [color]
@@ -25,8 +26,10 @@
 	path = .gitconfig.local
 [init]
 	defaultBranch = main
-[filter "lfs"]
-	clean = git-lfs clean -- %f
-	smudge = git-lfs smudge -- %f
-	process = git-lfs filter-process
-	required = true
+[interactive]
+	diffFilter = delta --color-only
+[delta]
+	navigate = true
+[merge]
+	conflictStyle = zdiff3
+
