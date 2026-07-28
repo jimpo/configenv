@@ -1,0 +1,13 @@
+#:schema https://docs.jj-vcs.dev/latest/config-schema.json
+
+[user]
+name = "Jim Posen"
+email = "jim.posen@gmail.com"
+
+[ui]
+diff-formatter = ":git"
+pager = "delta"
+
+[merge-tools]
+delta.diff-expected-exit-codes = [0, 1]
+

@@ -22,6 +22,8 @@ cp -i tmux.conf ~/.tmux.conf
 cp -i gitconfig ~/.gitconfig
 cp -i vimrc ~/.vimrc
 cp -i ideavimrc ~/.ideavimrc
+cp -ir jj ~/.config
+cp -ir nvim ~/.config
 mkdir -p ~/.emacs.d
 cp -ir emacs.d/* ~/.emacs.d
 cp -ir oh-my-zsh/* ~/.oh-my-zsh
