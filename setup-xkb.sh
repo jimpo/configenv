@@ -1,15 +1,5 @@
 #!/bin/sh
 
-sh setup-shell.sh
-sh setup-editors.sh
-
-# add customization files
-cp -i tmux.conf ~/.tmux.conf
-cp -i gitconfig ~/.gitconfig
-cp -ir jj ~/.config
-
-git clone https://github.com/chriskempson/base16-shell.git ~/.config/base16-shell
-
 # Capslock as meta remapping option
 cd /usr/share/X11/xkb/rules
 sudo sed -i 's/^  caps:menu\t\t=\t+capslock(menu)$/  caps:meta\t\t=\t+capslock(meta)\n\0/' base
