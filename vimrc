@@ -1,11 +1,13 @@
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => vim-plug Setup
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-call plug#begin()
-Plug 'chriskempson/base16-vim'
-Plug 'fatih/vim-go'
-Plug 'rust-lang/rust.vim'
-call plug#end()
+if filereadable(expand('~/.vim/autoload/plug.vim'))
+  call plug#begin()
+  Plug 'chriskempson/base16-vim'
+  Plug 'fatih/vim-go'
+  Plug 'rust-lang/rust.vim'
+  call plug#end()
+endif
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => General

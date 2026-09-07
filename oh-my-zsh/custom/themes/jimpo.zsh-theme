@@ -24,19 +24,13 @@ function vi_mode_custom_prompt_info() {
 }
 
 function prompt_pwd() {
-	python3 <<EOF
-import os
-
-cwd = os.getcwd()
-home_dir = os.environ['HOME']
-if cwd.startswith(home_dir):
-    cwd = cwd.replace(home_dir, "~", 1)
-split_cwd = cwd.split("/")
-if len(split_cwd) > 4:
-    split_cwd[2:-2] = ["..."]
-    cwd = "/".join(split_cwd)
-print(cwd)
-EOF
+	local cwd="${PWD/#$HOME/~}"
+	local -a parts
+	parts=("${(s:/:)cwd}")
+	if (( ${#parts} > 4 )); then
+		parts=("${parts[1]}" "${parts[2]}" "..." "${parts[-2]}" "${parts[-1]}")
+	fi
+	echo "${(j:/:)parts}"
 }
 
 PROMPT='%{$fg[cyan]%}%n@%m %{$fg[green]%}[$(prompt_pwd)]% %{$fg[white]%}%  %B%#%b '
