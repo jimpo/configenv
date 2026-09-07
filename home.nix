@@ -12,6 +12,11 @@
 
   configenv.desktop.enable = true;
 
+  # nixpkgs' vim plugin updater stamps `meta.license = unfree` on every plugin
+  # whose licence it could not detect - base16-vim and vim-go among them - so
+  # the module's vim does not evaluate without this.
+  nixpkgs.config.allowUnfree = true;
+
   home.username = builtins.getEnv "USER";
   home.homeDirectory = builtins.getEnv "HOME";
   home.stateVersion = "25.05";
