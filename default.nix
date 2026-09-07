@@ -48,7 +48,7 @@ in
 
   config = lib.mkIf cfg.enable {
     # install.sh's apt line, less the packages home-manager brings itself
-    # (zsh comes with programs.zsh).
+    # (zsh comes with programs.zsh, vim with programs.vim).
     home.packages = with pkgs; [
       curl
       delta
@@ -58,7 +58,6 @@ in
       ripgrep
       tmux
       unzip
-      vim
       zip
     ] ++ lib.optionals cfg.desktop.enable [
       emacs
@@ -84,6 +83,41 @@ in
       ".emacs.d/init.el".source = ./emacs.d/init.el;
       ".emacs.d/custom.el".source = ./emacs.d/custom.el;
       ".config/Code/User/keybindings.json".source = ./VSCode/keybindings.json;
+    };
+
+    # vim: the wrapper and the plugin set, beside the `vimrc` that asks for
+    # them. `packageConfigurable` is the terminal build rather than the
+    # default `vim-full`, whose GUI closure a headless machine has no use for.
+    #
+    # THE PLUGINS ARE DECLARED HERE, not read from `vimrc`: nix cannot see
+    # inside a vimscript file, and `vimPlugins` normalizes an upstream name
+    # (`rust.vim` is `rust-vim`). home-manager adds `vim-sensible` to whatever
+    # this list holds, as the baseline `vimrc`'s own settings win over.
+    #
+    # `vimrc` IS STILL READ, and `extraConfig` is what reads it. The module
+    # wraps the binary as `vim -u <generated vimrc>`, and `-u` makes vim skip
+    # the account's own file, so the generated one sources it back.
+    # `packloadall` goes first because these plugins arrive through vim's
+    # package mechanism, which vim applies AFTER the vimrc, while `vimrc` runs
+    # `colorscheme base16-chalk` during it.
+    #
+    # nixpkgs' vim plugin updater stamps `meta.license = unfree` on every
+    # plugin whose licence it could not detect - base16-vim and vim-go among
+    # them - so a consumer of this module needs `nixpkgs.config.allowUnfree`.
+    programs.vim = {
+      enable = true;
+      packageConfigurable = pkgs.vim;
+      plugins = with pkgs.vimPlugins; [
+        base16-vim
+        rust-vim
+        vim-go
+      ];
+      extraConfig = ''
+        packloadall
+        if filereadable(expand('~/.vimrc'))
+          source ~/.vimrc
+        endif
+      '';
     };
 
     programs.zsh = {

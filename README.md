@@ -21,6 +21,7 @@ that wants these files without the rest of `home.nix`:
 ```nix
 imports = [ /path/to/configenv ];
 configenv.desktop.enable = true;   # editors and fonts; off by default
+nixpkgs.config.allowUnfree = true; # the vim plugins are stamped unfree
 ```
 
 To check the configuration without building it:
