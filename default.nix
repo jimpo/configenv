@@ -24,25 +24,10 @@ in
       type = lib.types.bool;
       default = false;
       description = ''
-        Whether to add the editors and fonts a workstation wants on top of the
-        shared configs: emacs, Inconsolata, and the VSCode keybindings.
-      '';
-    };
-
-    base16Shell = lib.mkOption {
-      type = lib.types.nullOr lib.types.path;
-      defaultText = lib.literalExpression "pkgs.fetchFromGitHub { ... }";
-      default = pkgs.fetchFromGitHub {
-        owner = "chriskempson";
-        repo = "base16-shell";
-        rev = "588691ba71b47e75793ed9edfcfaa058326a6f41";
-        hash = "sha256-X89FsG9QICDw3jZvOCB/KsPBVOLUeE7xN3VCtf0DD3E=";
-      };
-      description = ''
-        Source of chriskempson/base16-shell, linked to
-        `~/.config/base16-shell`, the path
-        `dotfiles/oh-my-zsh/custom/settings.zsh` sources. Null leaves that
-        path alone.
+        Whether to add my primary desktop environment on top of the shared
+        configs: emacs, Inconsolata, the VSCode keybindings, the base16-shell
+        palette, and the rsync filter its backups read. A machine that only
+        wants the shared configs - a build box, a dev VM - leaves this off.
       '';
     };
   };
@@ -74,8 +59,6 @@ in
       ".gitconfig".source = ./dotfiles/gitconfig;
       ".config/jj/config.toml".source = ./dotfiles/config/jj/config.toml;
       ".config/nvim/init.lua".source = ./dotfiles/config/nvim/init.lua;
-    } // lib.optionalAttrs (cfg.base16Shell != null) {
-      ".config/base16-shell".source = cfg.base16Shell;
     } // lib.optionalAttrs cfg.desktop.enable {
       # File by file, not directory by directory: emacs writes `custom.el` and
       # its own runtime files into ~/.config/emacs, and VSCode writes settings
@@ -90,6 +73,15 @@ in
       ".config/Code/User/keybindings.json".source = ./dotfiles/config/VSCode/keybindings.json;
       # rsync -F is used to back up my full desktop home directory.
       ".rsync-filter".source = ./dotfiles/rsync-filter;
+      # The terminal palette `dotfiles/oh-my-zsh/custom/settings.zsh` activates
+      # with `base16_chalk`, pinned here because nixpkgs does not package it -
+      # only `base16-schemes` and `base16-shell-preview`.
+      ".config/base16-shell".source = pkgs.fetchFromGitHub {
+        owner = "chriskempson";
+        repo = "base16-shell";
+        rev = "588691ba71b47e75793ed9edfcfaa058326a6f41";
+        hash = "sha256-X89FsG9QICDw3jZvOCB/KsPBVOLUeE7xN3VCtf0DD3E=";
+      };
     };
 
     # vim: the wrapper and the plugin set, beside the `vimrc` that asks for
