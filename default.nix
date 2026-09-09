@@ -72,7 +72,7 @@ in
       ".tmux.conf".source = ./tmux.conf;
       ".gitconfig".source = ./gitconfig;
       ".config/jj/config.toml".source = ./jj/config.toml;
-      ".config/nvim".source = ./nvim;
+      ".config/nvim/init.lua".source = ./nvim/init.lua;
     } // lib.optionalAttrs (cfg.base16Shell != null) {
       ".config/base16-shell".source = cfg.base16Shell;
     } // lib.optionalAttrs cfg.desktop.enable {
