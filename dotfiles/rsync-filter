@@ -1,0 +1,12 @@
++ /.aws/
++ /.config/
++ /.gnupg/
++ /.ssh/
+- /.*/
+- /snap/spotify/common/.cache
+- node_modules/
+- cmake-build-*/
+- target/
+- .lake/
+- .venv/
+

@@ -88,6 +88,8 @@ in
       ".config/emacs/early-init.el".source = ./dotfiles/config/emacs/early-init.el;
       ".config/emacs/init.el".source = ./dotfiles/config/emacs/init.el;
       ".config/Code/User/keybindings.json".source = ./dotfiles/config/VSCode/keybindings.json;
+      # rsync -F is used to back up my full desktop home directory.
+      ".rsync-filter".source = ./dotfiles/rsync-filter;
     };
 
     # vim: the wrapper and the plugin set, beside the `vimrc` that asks for

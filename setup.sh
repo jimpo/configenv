@@ -14,6 +14,7 @@ sh setup-editors.sh
 cp $CP_FLAG dotfiles/tmux.conf ~/.tmux.conf
 cp $CP_FLAG dotfiles/gitconfig ~/.gitconfig
 cp -r $CP_FLAG dotfiles/config/jj ~/.config
+cp $CP_FLAG dotfiles/rsync-filter ~/.rsync-filter
 
 [ -d ~/.config/base16-shell ] || \
     git clone https://github.com/chriskempson/base16-shell.git ~/.config/base16-shell
