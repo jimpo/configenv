@@ -12,7 +12,7 @@
 ;; https://www.emacswiki.org/emacs/ToolBar
 (tool-bar-mode -1)
 
-(setq custom-file "~/.emacs.d/custom.el")
+(setq custom-file (concat user-emacs-directory "custom.el"))
 (load custom-file)
 
 ;; https://melpa.org/#/getting-started
@@ -23,20 +23,19 @@
 ;; https://github.com/radian-software/straight.el#getting-started
 (defvar bootstrap-version)
 (let ((bootstrap-file
-			 (expand-file-name
-				"straight/repos/straight.el/bootstrap.el"
-				(or (bound-and-true-p straight-base-dir)
-						user-emacs-directory)))
-			(bootstrap-version 7))
-	(unless (file-exists-p bootstrap-file)
-		(with-current-buffer
-				(url-retrieve-synchronously
-				 "https://raw.githubusercontent.com/radian-software/straight.el/develop/install.el"
-				 'silent 'inhibit-cookies)
-			(goto-char (point-max))
-			(eval-print-last-sexp)))
-	(load bootstrap-file nil 'nomessage))
-
+       (expand-file-name
+        "straight/repos/straight.el/bootstrap.el"
+        (or (bound-and-true-p straight-base-dir)
+            user-emacs-directory)))
+      (bootstrap-version 7))
+  (unless (file-exists-p bootstrap-file)
+    (with-current-buffer
+        (url-retrieve-synchronously
+         "https://raw.githubusercontent.com/radian-software/straight.el/develop/install.el"
+         'silent 'inhibit-cookies)
+      (goto-char (point-max))
+      (eval-print-last-sexp)))
+  (load bootstrap-file nil 'nomessage))
 
 (unless (package-installed-p 'use-package)
 	(package-refresh-contents)
@@ -44,18 +43,21 @@
 
 
 (use-package try
-	:ensure t)
+	:straight t)
+
+(use-package company
+	:straight t)
 
 (use-package ace-window
-	:ensure t
+	:straight t
 	:init
 	(global-set-key [remap other-window] 'ace-window))
 
 (use-package diminish
-	:ensure t)
+	:straight t)
 
 (use-package editorconfig
-	:ensure t
+	:straight t
 	:config
 	(editorconfig-mode 1)
 	:custom
@@ -63,7 +65,6 @@
 
 (use-package helm
 	:straight t
-	:ensure t
 	:diminish helm-mode
 	:bind (("M-x" . helm-M-x)
 				 ("M-s o" . helm-occur)
@@ -81,7 +82,7 @@
 	(helm-move-to-line-cycle-in-source nil))
 
 (use-package helm-projectile
-	:ensure t
+	:straight t
 	:init
 	(setq projectile-completion-system 'helm)
 	:config
@@ -89,12 +90,18 @@
 	(helm-projectile-on)
 	(define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map))
 
+(use-package git-link
+	:straight t
+	:bind ("C-c g l" . git-link)
+	:custom
+	(git-link-use-commit t))
+
 (use-package projectile
 	:custom
 	(projectile-use-git-grep t))
 
 (use-package exec-path-from-shell
-	:ensure t
+	:straight t
 	:config
 	(exec-path-from-shell-initialize))
 
@@ -102,16 +109,20 @@
 	:mode ("APKBUILD" . shell-script-mode))
 
 (use-package base16-theme
-	:ensure t
+	:straight t
 	:config
 	(load-theme 'base16-bright t))
 
 (use-package magit
-	:ensure t
+	:straight t
 	:bind ("C-x g" . magit-status))
 
+(use-package magit-delta
+	:straight t
+  :hook (magit-mode . magit-delta-mode))
+
 (use-package org
-	:ensure t
+	:straight t
 	:bind (("C-c l" . org-store-link)
 				 ("C-c a" . org-agenda)
 				 ("C-c c" . org-capture)
@@ -120,13 +131,13 @@
 	(setq org-agenda-files (list "~/org/planner.org")))
 
 (use-package popwin
-	:ensure t
+	:straight t
 	:init
 	(require 'popwin)
 	(popwin-mode 1))
 
 (use-package evil
-	:ensure t
+	:straight t
 	:init
 	;; https://github.com/ProofGeneral/PG/issues/174
 	(setq evil-want-abbrev-expand-on-insert-exit nil)
@@ -142,14 +153,14 @@
 
 (use-package evil-collection
 	:after evil
-	:ensure t
+	:straight t
 	:custom
 	(evil-collection-calendar-want-org-bindings t)
 	:config
 	(evil-collection-init))
 
 (use-package evil-org
-	:ensure t
+	:straight t
 	:after org
 	:hook (org-mode . (lambda () evil-org-mode))
 	:config
@@ -178,6 +189,7 @@
 	:interpreter "node")
 
 (use-package rust-mode
+	:straight t
 	:hook (rust-mode . (lambda () (setq tab-width 4)))
 	:hook (rust-mode . (lambda () (setq indent-tabs-mode nil))))
 
@@ -189,9 +201,11 @@
 	:mode "\\.mak\\'")
 
 (use-package go-mode
+	:straight t
 	:hook (before-save . gofmt-before-save))
 
 (use-package lsp-mode
+	:straight t
 	:commands lsp
 	:hook (svelte-mode . lsp)
 	:hook (typescript-mode . lsp)
@@ -208,7 +222,6 @@
 										:server-id 'solc-lsp))
 	(add-to-list 'lsp-language-id-configuration '(solidity-mode . "solidity"))
 	:custom
-	(lsp-rust-analyzer-server-command '("rustup" "run" "stable" "rust-analyzer"))
 	(lsp-pylsp-plugins-black-enabled 't))
 
 (use-package helm-lsp
@@ -216,8 +229,12 @@
 	:bind (("M-SPC" . helm-lsp-workspace-symbol)))
 
 (use-package markdown-mode
-	:ensure t
+	:straight t
 	:mode "\\.mdx\\'"
+	:init (setq markdown-command "pandoc"))
+
+(use-package dockerfile-ts-mode
+	:mode "Dockerfile"
 	:init (setq markdown-command "pandoc"))
 
 (setq path-to-ctags "/usr/bin/ctags")
@@ -265,3 +282,6 @@
 (defun flash-mode-line ()
   (invert-face 'mode-line)
   (run-with-timer 0.1 nil #'invert-face 'mode-line))
+
+(setq treesit-language-source-alist
+   '((dockerfile "https://github.com/camdencheek/tree-sitter-dockerfile")))
