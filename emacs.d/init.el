@@ -87,7 +87,7 @@
 	:init
 	(setq projectile-completion-system 'helm)
 	:config
-	(projectile-global-mode)
+	(projectile-mode 1)
 	(helm-projectile-on)
 	(define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map))
 
