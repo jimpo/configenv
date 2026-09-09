@@ -1,4 +1,4 @@
-(add-to-list 'load-path "~/.emacs.d/lisp/")
+(add-to-list 'load-path (expand-file-name "lisp/" user-emacs-directory))
 
 (setq inhibit-startup-message t)
 
@@ -12,8 +12,9 @@
 ;; https://www.emacswiki.org/emacs/ToolBar
 (tool-bar-mode -1)
 
-(setq custom-file (concat user-emacs-directory "custom.el"))
-(load custom-file)
+;; `customize' writes this file, so it need not exist yet.
+(setq custom-file (expand-file-name "custom.el" user-emacs-directory))
+(load custom-file 'noerror)
 
 ;; https://melpa.org/#/getting-started
 (require 'package)

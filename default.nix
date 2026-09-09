@@ -76,12 +76,16 @@ in
     } // lib.optionalAttrs (cfg.base16Shell != null) {
       ".config/base16-shell".source = cfg.base16Shell;
     } // lib.optionalAttrs cfg.desktop.enable {
-      # File by file, not directory by directory: emacs writes package trees
-      # into ~/.emacs.d and VSCode writes settings into ~/.config/Code/User,
-      # and neither can do that under a read-only store symlink.
-      ".emacs.d/early-init.el".source = ./emacs.d/early-init.el;
-      ".emacs.d/init.el".source = ./emacs.d/init.el;
-      ".emacs.d/custom.el".source = ./emacs.d/custom.el;
+      # File by file, not directory by directory: emacs writes `custom.el` and
+      # its own runtime files into ~/.config/emacs, and VSCode writes settings
+      # into ~/.config/Code/User, and neither can do that under a read-only
+      # store symlink. `early-init.el` sends the two big trees straight.el
+      # would otherwise put there to ~/.local/state and ~/.cache.
+      #
+      # ~/.config/emacs, not ~/.emacs.d: emacs prefers ~/.emacs.d whenever it
+      # exists, so a stray one shadows everything linked here.
+      ".config/emacs/early-init.el".source = ./emacs.d/early-init.el;
+      ".config/emacs/init.el".source = ./emacs.d/init.el;
       ".config/Code/User/keybindings.json".source = ./VSCode/keybindings.json;
     };
 
