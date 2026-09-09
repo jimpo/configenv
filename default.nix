@@ -40,8 +40,9 @@ in
       };
       description = ''
         Source of chriskempson/base16-shell, linked to
-        `~/.config/base16-shell`, the path `oh-my-zsh/custom/settings.zsh`
-        sources. Null leaves that path alone.
+        `~/.config/base16-shell`, the path
+        `dotfiles/oh-my-zsh/custom/settings.zsh` sources. Null leaves that
+        path alone.
       '';
     };
   };
@@ -67,12 +68,12 @@ in
     fonts.fontconfig.enable = lib.mkIf cfg.desktop.enable true;
 
     home.file = {
-      ".vimrc".source = ./vimrc;
-      ".ideavimrc".source = ./ideavimrc;
-      ".tmux.conf".source = ./tmux.conf;
-      ".gitconfig".source = ./gitconfig;
-      ".config/jj/config.toml".source = ./jj/config.toml;
-      ".config/nvim/init.lua".source = ./nvim/init.lua;
+      ".vimrc".source = ./dotfiles/vimrc;
+      ".ideavimrc".source = ./dotfiles/ideavimrc;
+      ".tmux.conf".source = ./dotfiles/tmux.conf;
+      ".gitconfig".source = ./dotfiles/gitconfig;
+      ".config/jj/config.toml".source = ./dotfiles/config/jj/config.toml;
+      ".config/nvim/init.lua".source = ./dotfiles/config/nvim/init.lua;
     } // lib.optionalAttrs (cfg.base16Shell != null) {
       ".config/base16-shell".source = cfg.base16Shell;
     } // lib.optionalAttrs cfg.desktop.enable {
@@ -84,9 +85,9 @@ in
       #
       # ~/.config/emacs, not ~/.emacs.d: emacs prefers ~/.emacs.d whenever it
       # exists, so a stray one shadows everything linked here.
-      ".config/emacs/early-init.el".source = ./emacs.d/early-init.el;
-      ".config/emacs/init.el".source = ./emacs.d/init.el;
-      ".config/Code/User/keybindings.json".source = ./VSCode/keybindings.json;
+      ".config/emacs/early-init.el".source = ./dotfiles/config/emacs/early-init.el;
+      ".config/emacs/init.el".source = ./dotfiles/config/emacs/init.el;
+      ".config/Code/User/keybindings.json".source = ./dotfiles/config/VSCode/keybindings.json;
     };
 
     # vim: the wrapper and the plugin set, beside the `vimrc` that asks for
@@ -130,7 +131,7 @@ in
         enable = true;
         theme = "jimpo";
         plugins = [ "git" "jj" "vi-mode" "fzf" "docker" ];
-        custom = "${./oh-my-zsh/custom}";
+        custom = "${./dotfiles/oh-my-zsh/custom}";
       };
     };
   };

@@ -19,5 +19,5 @@ sed -i \
 zsh_path="$(command -v zsh)"
 [ "$(getent passwd "$(id -un)" | cut -d: -f7)" = "$zsh_path" ] || chsh -s "$zsh_path"
 
-cp -r ${CP_FLAG:--i} oh-my-zsh/* ~/.oh-my-zsh
+cp -r ${CP_FLAG:--i} dotfiles/oh-my-zsh/* ~/.oh-my-zsh
 

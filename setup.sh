@@ -11,9 +11,9 @@ sh setup-shell.sh
 sh setup-editors.sh
 
 # add customization files
-cp $CP_FLAG tmux.conf ~/.tmux.conf
-cp $CP_FLAG gitconfig ~/.gitconfig
-cp -r $CP_FLAG jj ~/.config
+cp $CP_FLAG dotfiles/tmux.conf ~/.tmux.conf
+cp $CP_FLAG dotfiles/gitconfig ~/.gitconfig
+cp -r $CP_FLAG dotfiles/config/jj ~/.config
 
 [ -d ~/.config/base16-shell ] || \
     git clone https://github.com/chriskempson/base16-shell.git ~/.config/base16-shell
