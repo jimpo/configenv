@@ -3,7 +3,8 @@
 #
 # Self-contained: `imports = [ ./configenv ]` needs nothing wired. It sets no
 # `home.username`, `home.homeDirectory` or `home.stateVersion` — those belong
-# to whoever imports it. See `home.nix` for the host's own entry point.
+# to whoever imports it. `README.md` shows an importing `home.nix` and lists
+# the options.
 { config, lib, pkgs, ... }:
 
 let
