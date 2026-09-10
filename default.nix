@@ -128,5 +128,7 @@ in
         custom = "${./dotfiles/oh-my-zsh/custom}";
       };
     };
+
+    home.sessionVariables.EDITOR = lib.mkDefault "vim";
   };
 }

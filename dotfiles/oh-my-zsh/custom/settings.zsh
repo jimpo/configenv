@@ -1,5 +1,3 @@
-export EDITOR=vim
-
 # Base16 Shell
 # `base16_chalk` is one of the functions profile_helper.sh defines, so it is
 # only callable once that has been sourced. Machines without base16-shell fall
