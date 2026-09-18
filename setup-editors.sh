@@ -14,8 +14,3 @@ cp -r ${CP_FLAG:--i} dotfiles/config/VSCode/* ~/.config/Code/User
 curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
     https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 
-# Install CSApprox for vim
-curl -o /tmp/CSApprox.zip -sSL https://www.vim.org/scripts/download_script.php?src_id=18594
-unzip -d ~/.vim /tmp/CSApprox.zip
-rm /tmp/CSApprox.zip
-
