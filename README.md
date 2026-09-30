@@ -50,4 +50,23 @@ Add `-f path/to/home.nix` if the importing `home.nix` is not at
 |---|---|---|---|
 | `configenv.enable` | bool | `true` | Whether to install the configuration files. It is an option, not a conditional import, because `imports` cannot sit inside `mkIf`. |
 | `configenv.desktop.enable` | bool | `false` | Whether to add the primary desktop environment on top of the shared configs: emacs, Inconsolata, the emacs and VSCode configs, the base16-shell palette, and the `.rsync-filter` for backups. Leave it off on a machine that only wants the shared configs, such as a build box or a dev VM. |
+| `configenv.agentSkills` | attrs of path | `{}` | Agent skills by name, each a directory with a `SKILL.md`. Linked to `~/.agents/skills/<name>`, with `~/.claude/skills/<name>` linking to that. |
+
+Skills from subdirectories of a GitHub repo, fetched once:
+```nix
+configenv.agentSkills =
+  let
+    anthropic = pkgs.fetchFromGitHub {
+      owner = "anthropics";
+      repo = "skills";
+      rev = "<commit>";
+      hash = lib.fakeHash;  # build once, paste the hash nix reports
+    };
+  in
+  lib.genAttrs [ "pdf" "docx" "xlsx" ] (name: "${anthropic}/skills/${name}")
+  // {
+    # A repo that is itself one skill, or one from elsewhere.
+    my-skill = ./skills/my-skill;
+  };
+```
 

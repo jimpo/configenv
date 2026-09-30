@@ -31,6 +31,27 @@ in
         wants the shared configs - a build box, a dev VM - leaves this off.
       '';
     };
+
+    agentSkills = lib.mkOption {
+      type = lib.types.attrsOf lib.types.path;
+      default = { };
+      example = lib.literalExpression ''
+        {
+          pdf = "''${pkgs.fetchFromGitHub {
+            owner = "anthropics";
+            repo = "skills";
+            rev = "<commit>";
+            hash = lib.fakeHash;
+          }}/skills/pdf";
+        }
+      '';
+      description = ''
+        Agent skills by name, each a directory holding a `SKILL.md`. Each is
+        linked to ~/.agents/skills/<name>, and ~/.claude/skills/<name> links to
+        that. Per skill rather than whole directories, so a skill installed by
+        hand beside them still has somewhere writable to go.
+      '';
+    };
   };
 
   config = lib.mkIf cfg.enable {
@@ -83,7 +104,11 @@ in
         rev = "588691ba71b47e75793ed9edfcfaa058326a6f41";
         hash = "sha256-X89FsG9QICDw3jZvOCB/KsPBVOLUeE7xN3VCtf0DD3E=";
       };
-    };
+    } // lib.concatMapAttrs (name: src: {
+      ".agents/skills/${name}".source = src;
+      ".claude/skills/${name}".source = config.lib.file.mkOutOfStoreSymlink
+        "${config.home.homeDirectory}/.agents/skills/${name}";
+    }) cfg.agentSkills;
 
     # vim: the wrapper and the plugin set, beside the `vimrc` that asks for
     # them. `packageConfigurable` is the terminal build rather than the
