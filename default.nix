@@ -48,7 +48,7 @@ in
       zip
     ] ++ lib.optionals cfg.desktop.enable [
       emacs
-      inconsolata
+      nerd-fonts.inconsolata
     ];
 
     fonts.fontconfig.enable = lib.mkIf cfg.desktop.enable true;
