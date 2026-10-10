@@ -19,6 +19,8 @@ vim.pack.add({
 	'https://github.com/nvim-lualine/lualine.nvim',
 	-- color theme
 	'https://github.com/rebelot/kanagawa.nvim',
+	-- language support
+	'https://github.com/Julian/lean.nvim',
 	-- version control integration
 	'https://github.com/NicolasGB/jj.nvim',
 	'https://github.com/NeogitOrg/neogit',
@@ -144,6 +146,8 @@ vim.api.nvim_create_autocmd('LspAttach', {
 		)
 	end,
 })
+
+vim.g.lean_config = { mappings = true }
 
 -- Color scheme
 vim.cmd("colorscheme kanagawa-dragon")
