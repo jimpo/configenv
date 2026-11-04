@@ -9,6 +9,13 @@
 
 let
   cfg = config.configenv;
+
+  mattpocockSkills = pkgs.fetchFromGitHub {
+    owner = "mattpocock";
+    repo = "skills";
+    rev = "4ae2317ddb22b046e26455e4f9c9b3aaaf62212d";
+    hash = "sha256-3vhd77xfZjKUYJsIwPFevIZPUAzUgZXr0RYj5NQrBwk=";
+  };
 in
 {
   options.configenv = {
@@ -73,6 +80,15 @@ in
     ];
 
     fonts.fontconfig.enable = lib.mkIf cfg.desktop.enable true;
+
+    # grilling and domain-modeling are not mine to invoke: grill-me and
+    # grill-with-docs call them through the Skill tool.
+    configenv.agentSkills = {
+      grill-me = "${mattpocockSkills}/skills/productivity/grill-me";
+      grill-with-docs = "${mattpocockSkills}/skills/engineering/grill-with-docs";
+      grilling = "${mattpocockSkills}/skills/productivity/grilling";
+      domain-modeling = "${mattpocockSkills}/skills/engineering/domain-modeling";
+    };
 
     home.file = {
       ".vimrc".source = ./dotfiles/vimrc;
