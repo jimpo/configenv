@@ -16,6 +16,13 @@ let
     rev = "4ae2317ddb22b046e26455e4f9c9b3aaaf62212d";
     hash = "sha256-3vhd77xfZjKUYJsIwPFevIZPUAzUgZXr0RYj5NQrBwk=";
   };
+
+  ponytailSkills = pkgs.fetchFromGitHub {
+    owner = "DietrichGebert";
+    repo = "ponytail";
+    rev = "96608e078b2d5ea607c5c3b8b5a54d1c1fba6846";
+    hash = "sha256-PhPtZbeX2wBp19GtWRy+fV93+fFYZe5S487eXPDl/us=";
+  };
 in
 {
   options.configenv = {
@@ -88,6 +95,8 @@ in
       grill-with-docs = "${mattpocockSkills}/skills/engineering/grill-with-docs";
       grilling = "${mattpocockSkills}/skills/productivity/grilling";
       domain-modeling = "${mattpocockSkills}/skills/engineering/domain-modeling";
+      ponytail = "${ponytailSkills}/skills/ponytail";
+      ponytail-review = "${ponytailSkills}/skills/ponytail-review";
     };
 
     home.file = {
