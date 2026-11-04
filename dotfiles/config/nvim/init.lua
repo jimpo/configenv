@@ -13,6 +13,8 @@ vim.pack.add({
 	'https://github.com/nvim-treesitter/nvim-treesitter',
 	'https://github.com/nvim-tree/nvim-web-devicons',
 	'https://github.com/nvim-tree/nvim-tree.lua',
+	'https://github.com/nvim-orgmode/orgmode',
+	'https://github.com/obsidian-nvim/obsidian.nvim',
 	-- diff viewer
 	'https://github.com/sindrets/diffview.nvim',
 	-- statusline
@@ -134,6 +136,8 @@ vim.lsp.config('lua_ls', {
 })
 vim.lsp.enable('lua_ls')
 
+vim.lsp.enable('org')
+
 vim.api.nvim_create_autocmd('LspAttach', {
 	callback = function(args)
 		local opts = { buffer = args.buf }
@@ -158,3 +162,27 @@ require('jj').setup {
 		backend = "diffview",
 	},
 }
+
+require('orgmode').setup {
+	org_default_notes_file = "~/org/hello.org",
+}
+
+require('obsidian').setup {
+	legacy_commands = false,
+	workspaces = {
+		{
+			name = "Personal",
+			path = "~/Obsidian/Personal",
+		},
+	},
+}
+
+-- Add concealing when we open markdown files for obsidian.nvim ui
+-- https://github.com/epwalsh/obsidian.nvim/issues/399#issuecomment-2297352501
+vim.api.nvim_create_autocmd('BufEnter', {
+  callback = function (opts)
+    if vim.bo[opts.buf].filetype == 'markdown' then
+      vim.opt.conceallevel = 2
+    end
+  end,
+})
