@@ -175,7 +175,7 @@ in
       oh-my-zsh = {
         enable = true;
         theme = "jimpo";
-        plugins = [ "git" "jj" "vi-mode" "fzf" "docker" ];
+        plugins = [ "git" "jj" "vi-mode" "fzf" "docker" "direnv" ];
         custom = "${./dotfiles/oh-my-zsh/custom}";
       };
     };
