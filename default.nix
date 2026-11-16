@@ -82,6 +82,7 @@ in
       unzip
       zip
       nixd
+      lua-language-server
     ] ++ lib.optionals cfg.desktop.enable [
       emacs
       nerd-fonts.inconsolata
