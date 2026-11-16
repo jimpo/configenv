@@ -15,6 +15,7 @@ vim.pack.add({
 	'https://github.com/nvim-tree/nvim-tree.lua',
 	-- diff viewer
 	'https://github.com/sindrets/diffview.nvim',
+	'https://github.com/esmuellert/codediff.nvim',
 	-- statusline
 	'https://github.com/nvim-lualine/lualine.nvim',
 	-- color theme
@@ -59,6 +60,9 @@ vim.keymap.set('n', '<leader>ws', builtin.lsp_dynamic_workspace_symbols,
 vim.keymap.set('n', 'gr', builtin.lsp_references, { desc = 'Telescope LSP references' })
 
 require('diffview').setup {}
+require('codediff').setup {
+	explorer = { view_mode = "tree" }
+}
 
 require('nvim-tree').setup {}
 
@@ -121,6 +125,36 @@ vim.lsp.config('rust_analyzer', {
 })
 vim.lsp.enable('rust_analyzer')
 vim.lsp.enable('ts_ls')
+
+vim.lsp.config('ty', {
+  cmd = { "uv", "run", "ty", "server" },
+})
+vim.lsp.enable('ty')
+
+-- https://github.com/nix-community/nixd/blob/main/nixd/docs/configuration.md#where-to-place-the-configuration
+vim.lsp.config("nixd", {
+  cmd = { "nixd" },
+  filetypes = { "nix" },
+  root_markers = { "flake.nix", ".git" },
+  settings = {
+    nixd = {
+      nixpkgs = {
+        expr = "import <nixpkgs> { }",
+      },
+      formatting = {
+        command = { "nixfmt" },
+      },
+      options = {
+        nixos = {
+          expr = '(builtins.getFlake (toString ./.)).nixosConfigurations.<hostname>.options',
+        },
+        home_manager = {
+          expr = '(builtins.getFlake (toString ./.)).homeConfigurations."<username>@<hostname>".options',
+        },
+      },
+    },
+  },
+})
 vim.lsp.enable('nixd')
 
 vim.lsp.config('clangd', {
@@ -157,7 +191,7 @@ vim.cmd("colorscheme kanagawa-dragon")
 -- Version control integration
 require('jj').setup {
 	diff = {
-		backend = "diffview",
+		backend = "codediff",
 	},
 }
 

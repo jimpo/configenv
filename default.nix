@@ -81,6 +81,7 @@ in
       tmux
       unzip
       zip
+      nixd
     ] ++ lib.optionals cfg.desktop.enable [
       emacs
       nerd-fonts.inconsolata
