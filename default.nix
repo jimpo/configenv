@@ -142,8 +142,8 @@ in
     # default `vim-full`, whose GUI closure a headless machine has no use for.
     #
     # THE PLUGINS ARE DECLARED HERE, not read from `vimrc`: nix cannot see
-    # inside a vimscript file, and `vimPlugins` normalizes an upstream name
-    # (`rust.vim` is `rust-vim`). home-manager adds `vim-sensible` to whatever
+    # inside a vimscript file, and `vimPlugins` normalizes upstream names.
+    # home-manager adds `vim-sensible` to whatever
     # this list holds, as the baseline `vimrc`'s own settings win over.
     #
     # `vimrc` IS STILL READ, and `extraConfig` is what reads it. The module
@@ -154,15 +154,13 @@ in
     # `colorscheme base16-chalk` during it.
     #
     # nixpkgs' vim plugin updater stamps `meta.license = unfree` on every
-    # plugin whose licence it could not detect - base16-vim and vim-go among
+    # plugin whose licence it could not detect - base16-vim among
     # them - so a consumer of this module needs `nixpkgs.config.allowUnfree`.
     programs.vim = {
       enable = true;
       packageConfigurable = pkgs.vim;
       plugins = with pkgs.vimPlugins; [
         base16-vim
-        rust-vim
-        vim-go
       ];
       extraConfig = ''
         packloadall
